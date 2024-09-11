@@ -2,6 +2,7 @@ package io.muehlbachler.bswe.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -103,5 +104,57 @@ public class UserControllerTest {
     verify(userService, times(1)).save(new User());
   }
 
-  // TODO: add more tests
+  @Test
+  public void testCreateNull() throws ApiException {
+    ResponseEntity<User> result = controller.create(null);
+    assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+  }
+
+  @Test
+  public void testCreateNullSave() throws ApiException {
+    UserCreateDto createDto = new UserCreateDto();
+    createDto.setUsername("username");
+
+    when(userService.save(new User())).thenReturn(null);
+
+    ResponseEntity<User> result = controller.create(createDto);
+    assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+    assertNull(result.getBody());
+
+    verify(userService, times(1)).save(new User());
+  }
+
+  @Test
+  public void testCreateFailed() throws ApiException {
+    UserCreateDto createDto = new UserCreateDto();
+    createDto.setUsername("username");
+
+    when(userService.save(new User()))
+        .thenThrow(new ApiException(ApiException.ApiExceptionType.SAVE_ERROR));
+
+    ResponseEntity<User> result = controller.create(createDto);
+    assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
+
+    verify(userService, times(1)).save(new User());
+  }
+
+  @Test
+  public void testDelete() {
+    when(userService.delete(user.getId())).thenReturn(true);
+
+    ResponseEntity<Void> result = controller.delete(user.getId());
+    assertEquals(HttpStatus.NO_CONTENT, result.getStatusCode());
+
+    verify(userService, times(1)).delete(user.getId());
+  }
+
+  @Test
+  public void testDeleteFails() {
+    when(userService.delete(user.getId())).thenReturn(false);
+
+    ResponseEntity<Void> result = controller.delete(user.getId());
+    assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+
+    verify(userService, times(1)).delete(user.getId());
+  }
 }

@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Identifies a user.
+ * The user's id is a unique identifier represented by a UUID.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,9 +32,15 @@ public class User {
   @Column(unique = true, nullable = false)
   private String username;
 
+  /**
+   * Creates a new user with the given id.
+   *
+   * @param id the user id
+   * @return the user with the given id
+   */
   public static User withId(final String id) {
     final User user = new User();
-    user.setId(null);
+    user.setId(id);
     return user;
   }
 }

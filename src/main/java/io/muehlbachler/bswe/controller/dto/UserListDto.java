@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * DTO to list users.
+ */
 @Setter
 @Getter
 @AllArgsConstructor

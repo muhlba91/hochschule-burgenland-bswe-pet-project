@@ -1,0 +1,94 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        "helpers:pinGitHubActionDigests",
+        ":dependencyDashboard",
+        ":semanticCommitTypeAll(chore)"
+    ],
+    "prHourlyLimit": 0,
+    "prConcurrentLimit": 0,
+    "baseBranches": [
+        "sample"
+    ],
+    "enabledManagers": [
+        "github-actions",
+        "gitlabci",
+        "pre-commit",
+        "npm",
+        "gradle",
+        "gradle-wrapper",
+        "dockerfile",
+        "pip_requirements",
+        "terraform",
+        "terraform-version"
+    ],
+    "github-actions": {
+        "fileMatch": [
+            "^(workflow-templates|\\.github/workflows)/[^/]+\\.ya?ml$",
+            "(^|/)action\\.ya?ml$"
+        ]
+    },
+    "gitlabci": {
+        "fileMatch": [
+            "(^|/)\\.gitlab-ci\\.ya?ml$"
+        ]
+    },
+    "pre-commit": {
+        "enabled": true,
+        "fileMatch": [
+            "(^|/)\\.pre-commit-config\\.ya?ml$"
+        ]
+    },
+    "npm": {
+        "fileMatch": [
+            "(^|/)package\\.json$"
+        ],
+        "rollbackPrs": true,
+        "versioning": "npm"
+    },
+    "gradle": {
+        "fileMatch": [
+            "\\.gradle(\\.kts)?$",
+            "(^|/)gradle\\.properties$",
+            "(^|/)gradle/.+\\.toml$",
+            "(^|/)buildSrc/.+\\.kt$",
+            "\\.versions\\.toml$",
+            "(^|/)versions.props$",
+            "(^|/)versions.lock$"
+        ],
+        "timeout": 600,
+        "versioning": "gradle"
+    },
+    "gradle-wrapper": {
+        "fileMatch": [
+            "(^|/)gradle/wrapper/gradle-wrapper\\.properties$"
+        ],
+        "versioning": "gradle"
+    },
+    "dockerfile": {
+        "fileMatch": [
+            "(^|/|\\.)([Dd]ocker|[Cc]ontainer)file$",
+            "(^|/)([Dd]ocker|[Cc]ontainer)file[^/]*$"
+        ]
+    },
+    "pip_requirements": {
+        "fileMatch": [
+            "(^|/)[\\w-]*requirements([-.]\\w+)?\\.(txt|pip)$"
+        ]
+    },
+    "terraform": {
+        "commitMessageTopic": "chore(deps): update terraform dependency {{depName}}",
+        "fileMatch": [
+            "\\.tf$"
+        ],
+        "pinDigests": false
+    },
+    "terraform-version": {
+        "fileMatch": [
+            "(^|/)\\.terraform-version$"
+        ],
+        "versioning": "hashicorp",
+        "extractVersion": "^v(?<version>.*)$"
+    }
+}
