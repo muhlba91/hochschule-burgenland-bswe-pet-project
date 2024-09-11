@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Implementation of the {@link GeocodingService} interface.
+ */
 @AllArgsConstructor
 @Service
 public class GeocodingServiceImpl implements GeocodingService {

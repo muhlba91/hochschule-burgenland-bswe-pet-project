@@ -1,0 +1,7 @@
+config:
+  fh-burgenland-bswe-pulumi-demo:concurrency: "80"
+  fh-burgenland-bswe-pulumi-demo:containerPort: "8080"
+  fh-burgenland-bswe-pulumi-demo:cpu: "1"
+  fh-burgenland-bswe-pulumi-demo:imageName: gcr.io/cloudrun/hello
+  fh-burgenland-bswe-pulumi-demo:memory: 512Mi
+  fh-burgenland-bswe-pulumi-demo:region: europe-west4
