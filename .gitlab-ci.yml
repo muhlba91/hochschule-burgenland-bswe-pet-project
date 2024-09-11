@@ -1,0 +1,75 @@
+---
+stages:
+  - conform
+  - test
+  - check
+  - build
+  - container
+  - attest
+
+variables:
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  JAVA_VERSION: "26"
+
+image: amazoncorretto:${JAVA_VERSION}
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+conform:
+  stage: conform
+  image:
+    name: ghcr.io/siderolabs/conform:v0.1.0-alpha.31
+    entrypoint: [""]
+  script:
+    - conform enforce
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+test:
+  stage: test
+  script:
+    - ./gradlew test
+  artifacts:
+    when: always
+    reports:
+      junit: build/test-results/test/TEST-*.xml
+
+check:
+  stage: check
+  script:
+    - ./gradlew check || true # continue-on-error: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+hadolint:
+  stage: check
+  image: hadolint/hadolint:latest-debian
+  script:
+    - hadolint Dockerfile
+
+build:
+  stage: build
+  needs:
+    - test
+    - check
+  script:
+    - ./gradlew bootJar
+  artifacts:
+    name: spring-boot-jar
+    paths:
+      - build/libs/bswe.jar
+    expire_in: 1 week
+
+container:
+  stage: container
+  image: docker:29
+  services:
+    - docker:29-dind
+  needs:
+    - build
+    - hadolint
+  script:
+    - echo "nothing to do here..."
