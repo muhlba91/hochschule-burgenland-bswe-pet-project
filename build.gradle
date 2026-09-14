@@ -2,10 +2,12 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '4.1.1'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'checkstyle'
+    id 'pmd'
 }
 
 group = 'io.muehlbachler'
-version = '0.0.1-SNAPSHOT'
+version = ''
 
 java {
   toolchain {
@@ -34,10 +36,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-  testImplementation 'org.springframework.boot:spring-boot-resttestclient'
-  testImplementation 'org.springframework.boot:spring-boot-restclient'
-  testImplementation 'org.wiremock.integrations:wiremock-spring-boot:4.2.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-resttestclient'
+    testImplementation 'org.springframework.boot:spring-boot-restclient'
+    testImplementation 'org.wiremock.integrations:wiremock-spring-boot:4.2.2'
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.7.5'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -48,6 +51,12 @@ dependencyManagement {
   }
 }
 
+pmd {
+    consoleOutput = true
+    ruleSetFiles = files("config/pmd/ruleset.xml")
+    toolVersion = "7.26.0"
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 
@@ -55,4 +64,6 @@ tasks.named('test') {
 		events "PASSED", "SKIPPED", "FAILED"
         exceptionFormat "full"
 	}
+
+    systemProperty 'pact.rootDir', file("$rootDir/pact").path
 }

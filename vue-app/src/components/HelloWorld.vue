@@ -3,6 +3,8 @@ defineProps<{
   msg: string
   multiplicand: number
   multiplier: number
+  dividend: number
+  divisor: number
 }>()
 </script>
 
@@ -17,6 +19,9 @@ defineProps<{
     <br />
     <p id="multiplication">
       The result of your multiplication is: {{ multiplicand }} * {{ multiplier }} = {{ multiplicand * multiplier }}
+    </p>
+    <p id="division">
+      The result of your division is: {{ dividend }} / {{ divisor }} = {{ dividend / divisor }}
     </p>
   </div>
 </template>
