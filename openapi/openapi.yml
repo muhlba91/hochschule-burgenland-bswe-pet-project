@@ -1,0 +1,132 @@
+---
+openapi: 3.1.0
+info:
+  title: Pet Project API
+  version: v0.0.0
+  description: |
+    This is the API documentation for the Pet Project application. It provides endpoints to manage users and geocode locations.
+servers:
+  - url: http://localhost:8080
+    description: Local Server URL
+tags:
+  - name: user
+    description: Operations related to users.
+  - name: geocode
+    description: Operations related to geocoding locations.
+paths:
+  /api/user/:
+    get:
+      tags:
+        - user
+      operationId: list_users
+      description: Returns the list of users.
+      responses:
+        "200":
+          description: OK - Returns the list of users
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserListDto"
+        "404":
+          description: Not Found - No users found
+    post:
+      tags:
+        - user
+      operationId: create_user
+      description: Creates a new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreateDto"
+        required: true
+      responses:
+        "201":
+          description: Created - User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad Request - Invalid data
+        "409":
+          description: Conflict - Username already exists
+  /api/user/{id}:
+    delete:
+      tags:
+        - user
+      operationId: delete_user
+      description: Deletes a user.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          example: 6b49455d-8b7b-4a8c-8c75-125ceb9d2f83
+          schema:
+            type: string
+      responses:
+        "204":
+          description: No Content - User successfully deleted
+        "404":
+          description: Not Found - User not found
+  /api/geocode:
+    get:
+      tags:
+        - geocode
+      operationId: geocode_location
+      description: Geocodes a location.
+      parameters:
+        - name: location
+          in: query
+          required: true
+          example: Vienna, Austria
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK - Returns the coordinates of the location
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coordinates"
+        "404":
+          description: Not Found - Location not found
+components:
+  schemas:
+    Coordinates:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+          example: 14.291
+        latitude:
+          type: number
+          format: double
+          example: 48.306
+        elevation:
+          type: number
+          format: float
+          example: 171.0
+    UserCreateDto:
+      type: object
+      properties:
+        username:
+          type: string
+          example: john_doe
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6b49455d-8b7b-4a8c-8c75-125ceb9d2f83
+        username:
+          type: string
+          example: john_doe
+    UserListDto:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"

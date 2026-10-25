@@ -88,5 +88,55 @@ public class UserControllerIntegrationTest {
     assertTrue(repository.existsById(user.getId()));
   }
 
-  // TODO: add more tests
+  @Test
+  public void testCreateEmptyUsername() throws Exception {
+    userDto.setUsername("");
+
+    mvc.perform(MockMvcRequestBuilders.post("/api/user/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new Gson().toJson(
+            userDto)))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    assertEquals(0, repository.count());
+  }
+
+  @Test
+  public void testCreateNull() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.post("/api/user/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new Gson().toJson(
+            null)))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    assertEquals(0, repository.count());
+  }
+
+  @Test
+  public void testCreateNullUsername() throws Exception {
+    userDto.setUsername(null);
+
+    mvc.perform(MockMvcRequestBuilders.post("/api/user/")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(new Gson().toJson(
+            userDto)))
+        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    assertEquals(0, repository.count());
+  }
+
+  @Test
+  public void testDelete() throws Exception {
+    repository.save(user);
+
+    mvc.perform(MockMvcRequestBuilders.delete("/api/user/" + user.getId()))
+        .andExpect(MockMvcResultMatchers.status().isNoContent());
+    assertEquals(0, repository.count());
+  }
+
+  @Test
+  public void testDeleteFails() throws Exception {
+    repository.save(user);
+
+    mvc.perform(MockMvcRequestBuilders.delete("/api/user/" + UUID.randomUUID().toString()))
+        .andExpect(MockMvcResultMatchers.status().isNotFound());
+    assertEquals(1, repository.count());
+  }
 }

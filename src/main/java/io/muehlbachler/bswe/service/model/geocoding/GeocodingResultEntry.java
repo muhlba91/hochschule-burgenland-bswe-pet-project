@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Represents an entry in the result of a geocoding request.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

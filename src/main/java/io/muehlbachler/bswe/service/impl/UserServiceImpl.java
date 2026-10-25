@@ -12,8 +12,13 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link UserService} interface.
+ */
 @AllArgsConstructor
 @Service
 @Transactional
@@ -25,26 +30,41 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public boolean exists(final String userId) {
-    // FIXME: implement
-    return true;
+    if (userId == null || userId.isEmpty()) {
+      return false;
+    }
+
+    return userRepository.existsById(userId);
   }
 
   @Override
   public List<User> list() {
     final List<User> result = new ArrayList<>();
-    // FIXME: implement
+    userRepository.findAll().forEach(result::add);
     return result;
   }
 
   @Override
   public User save(final User user) throws ApiException {
-    // FIXME: implement
-    return user;
+    if (user == null || user.getUsername() == null || user.getUsername().isEmpty()) {
+      throw new ApiException(ApiException.ApiExceptionType.NO_DATA);
+    }
+
+    try {
+      return userRepository.save(user);
+    } catch (OptimisticLockingFailureException | IllegalArgumentException | DataIntegrityViolationException e) {
+      LOG.error("failed to save user", e);
+      throw new ApiException(ApiException.ApiExceptionType.SAVE_ERROR, e);
+    }
   }
 
   @Override
   public boolean delete(final String userId) {
-    // FIXME: implement
+    if (userId == null || userId.isEmpty() || !userRepository.existsById(userId)) {
+      return false;
+    }
+
+    userRepository.deleteById(userId);
     return true;
   }
 }

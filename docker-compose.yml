@@ -1,0 +1,25 @@
+---
+services:
+  nginx:
+    image: nginx:1.31-alpine
+    container_name: nginx
+    restart: unless-stopped
+    environment:
+      - TEST_ENVIRONMENT=my-env-var
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/repository
+      - test-volume:/usr/share/nginx/html
+
+  spring-boot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-boot
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+volumes:
+  test-volume:

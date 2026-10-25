@@ -1,0 +1,6 @@
+name: fh-burgenland-bswe-pulumi-demo
+runtime:
+  name: nodejs
+  options:
+    packagemanager: yarn
+description: Deploys a simple container to Google Cloud Run.
