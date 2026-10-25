@@ -1,0 +1,9 @@
+min_version = "2026.10.0"
+
+[settings]
+lockfile = true
+lockfile_platforms = ["macos-arm64", "linux-x64", "linux-arm64"]
+
+[tools]
+java = "corretto-27.0.0.35.1"
+node = "24.22.1"
