@@ -319,3 +319,6 @@ test-results/
 playwright-report/
 bin/
 vue-app/.yarn/install-state.gz
+
+# mise
+mise.local.toml

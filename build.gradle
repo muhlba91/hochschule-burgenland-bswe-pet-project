@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(26)
+    languageVersion = JavaLanguageVersion.of(27)
   }
 }
 
@@ -27,11 +27,13 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'com.google.code.gson:gson:2.14.0'
 
-    compileOnly 'org.projectlombok:lombok'
+    // TODO: pin lombok to this version until the update for JDK 27 hits core spring boot
+    compileOnly 'org.projectlombok:lombok:1.18.48'
 
     runtimeOnly 'com.h2database:h2'
 
-    annotationProcessor 'org.projectlombok:lombok'
+    // TODO: pin lombok to this version until the update for JDK 27 hits core spring boot
+    annotationProcessor 'org.projectlombok:lombok:1.18.48'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
