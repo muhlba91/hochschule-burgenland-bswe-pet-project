@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Identifies a location's geographical coordinates.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

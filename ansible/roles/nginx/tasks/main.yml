@@ -1,0 +1,12 @@
+---
+- name: nginx | Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: yes
+  notify: nginx | Restart
+
+- name: nginx | Configure index.html
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: /var/www/html/index.html

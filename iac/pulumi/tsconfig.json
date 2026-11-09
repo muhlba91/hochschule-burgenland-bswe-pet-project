@@ -1,0 +1,41 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "outDir": "bin",
+        "target": "es2020",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "experimentalDecorators": true,
+        "pretty": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "incremental": true,
+        "declaration": true,
+        "inlineSourceMap": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "traceResolution": false,
+        "listEmittedFiles": false,
+        "listFiles": false,
+        "lib": [
+            "es2020"
+        ],
+        "types": [
+            "node"
+        ],
+    },
+    "files": [
+        "index.ts"
+    ],
+    "exclude": [
+        "node_modules/**"
+    ],
+    "compileOnSave": false
+}

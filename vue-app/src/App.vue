@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { newMultiplier } from './utils/multiplier'
+import { newDividend } from './utils/dividend'
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 
 const { multiplier, increment } = newMultiplier()
+const { dividend, decrement } = newDividend()
 </script>
 
 <template>
@@ -11,8 +13,9 @@ const { multiplier, increment } = newMultiplier()
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" :multiplicand="5" :multiplier="multiplier" />
+      <HelloWorld msg="You did it!" :multiplicand="5" :multiplier="multiplier" :divisor="5" :dividend="dividend" />
       <button id="increment" @click="increment">Increase multiplier.</button>
+      <button id="decrement" @click="decrement">Decrease dividend.</button>
     </div>
   </header>
 

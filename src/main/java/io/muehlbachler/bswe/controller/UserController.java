@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller to expose user endpoints.
+ */
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/user")
@@ -28,6 +31,12 @@ public class UserController {
   @Autowired
   private final UserService userService;
 
+  /**
+   * Creates a new user.
+   *
+   * @param userDto the user to create
+   * @return the created user
+   */
   @PostMapping("/")
   public ResponseEntity<User> create(@RequestBody final UserCreateDto userDto) {
     if (userDto == null) {
@@ -49,6 +58,11 @@ public class UserController {
     }
   }
 
+  /**
+   * Lists all users.
+   *
+   * @return the list of users
+   */
   @GetMapping("/")
   public ResponseEntity<UserListDto> list() {
     final List<User> users = userService.list();
@@ -59,6 +73,12 @@ public class UserController {
     return new ResponseEntity<>(new UserListDto(users), HttpStatus.OK);
   }
 
+  /**
+   * Deletes a user.
+   *
+   * @param id the user id
+   * @return the status of the deletion
+   */
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable final String id) {
     return new ResponseEntity<>(
